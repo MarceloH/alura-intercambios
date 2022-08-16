@@ -72,6 +72,13 @@ function alura_intercambios_registrando_metabox()
         'ai_funcao_callback',
         'banners'
     );
+
+    add_meta_box(
+        'ai_registrando_metabox_destinos',
+        'Campos para destino',
+        'ai_funcao_callback_destinos',
+        'destinos'
+    );
 }
 
 add_action('add_meta_boxes', 'alura_intercambios_registrando_metabox');
@@ -91,10 +98,24 @@ function ai_funcao_callback($post)
 <?php
 }
 
+function ai_funcao_callback_destinos($post)
+{
+    $latitude = get_post_meta(get_the_ID(), '_latitude', true);
+    $longitude = get_post_meta(get_the_ID(), '_longitude', true);
+?>
+    <label for="latitude">Latitude</label>
+    <input type="text" name="latitude" style="width: 100%" value="<?= $latitude ?>" required />
+    <br>
+    <br>
+    <label for="longitude">Longitude</label>
+    <input type="text" name="longitude" style="width: 100%" value="<?= $longitude ?>" required />
+<?php
+}
+
 function alura_intercambios_salvando_dados_metabox($post_id)
 {
     foreach ($_POST as $key => $value) {
-        if ($key !== 'texto_home_1' && $key !== 'texto_home_2') {
+        if ($key !== 'texto_home_1' && $key !== 'texto_home_2' && $key !== 'latitude' && $key !== 'longitude') {
             continue;
         }
 
@@ -139,6 +160,13 @@ function alura_intercambios_adicionando_scripts()
         wp_enqueue_script('typed-js', get_template_directory_uri() . '/js/typed.min.js', array(), false, true);
         wp_enqueue_script('texto-banner-js', get_template_directory_uri() . '/js/texto-banner.js', array('typed-js'), false, true);
         wp_localize_script('texto-banner-js', 'data', $textosBanner);
+    } else {
+        wp_enqueue_style(
+            'leaflet',
+            get_template_directory_uri() . '/leaflet/leaflet.css'
+        );
+        wp_enqueue_script('leaflet-js', get_template_directory_uri() . '/leaflet/leaflet.js', array(), false, true);
+        wp_enqueue_script('config-leaflet-js', get_template_directory_uri() . '/leaflet/config-leaflet.js', array('leaflet-js'), false, true);
     }
 }
 
