@@ -171,3 +171,51 @@ function alura_intercambios_adicionando_scripts()
 }
 
 add_action('wp_enqueue_scripts', 'alura_intercambios_adicionando_scripts');
+
+
+//Projetos
+
+function alura_intercambios_registrando_taxonomia_setores()
+{
+    register_taxonomy(
+        'setores',
+        'projetos',
+        array(
+            'labels' => array('name' => 'Tipo Setores'),
+            'hierarchical' => true
+        )
+    );
+}
+
+add_action('init', 'alura_intercambios_registrando_taxonomia_setores');
+
+function alura_intercambios_registrando_taxonomia_status()
+{
+    register_taxonomy(
+        'status',
+        'projetos',
+        array(
+            'labels' => array('name' => 'Status do projeto'),
+            'hierarchical' => true
+        )
+    );
+}
+
+add_action('init', 'alura_intercambios_registrando_taxonomia_status');
+
+
+function alura_intercambios_registrando_post_customizado_projetos()
+{
+    register_post_type(
+        'projetos',
+        array(
+            'labels' => array('name' => 'Projetos'),
+            'public' => true,
+            'menu_position' => 0,
+            'supports' => array('title', 'editor', 'thumbnail'),
+            'menu_icon' => 'dashicons-open-folder'
+        )
+    );
+}
+
+add_action('init', 'alura_intercambios_registrando_post_customizado_projetos');

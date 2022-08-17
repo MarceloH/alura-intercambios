@@ -30,15 +30,18 @@ $args = array(
     'tax_query' => !empty($_GET['paises']) ? $paisSelecionado : ''
 );
 $query = new WP_Query($args);
+$aDestinos = [];
 if ($query->have_posts()) :
     echo '<main class="page-destinos">';
     echo '<ul class="lista-destinos container-alura">';
     while ($query->have_posts()) : $query->the_post();
-
         $latitude  = get_post_meta(get_the_ID(), '_latitude', true);
         $longitude = get_post_meta(get_the_ID(), '_longitude', true);
-        wp_localize_script('config-leaflet-js', 'data', ['latitude' => $latitude, 'longitude' => $longitude]);
-
+        $aDestinos[] = array(
+            'titulo' => get_the_title(),
+            'latitude' => $latitude,
+            'longitude' => $longitude
+        );
         echo '<li class="col-md-3 destinos" >';
         the_post_thumbnail();
         the_title('<p class="titulo-destino">', '</p>');
@@ -48,5 +51,6 @@ if ($query->have_posts()) :
     echo '</ul>';
     echo '<div id="map"></div>';
     echo '</main>';
+    wp_localize_script('config-leaflet-js', 'data', $aDestinos);
 endif;
 require_once 'footer.php';
