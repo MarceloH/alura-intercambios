@@ -17,7 +17,7 @@ for (let i = 0; i < data.length; i++) {
     );
 }
 
-var cities = L.layerGroup(markers);
+var projetos = L.layerGroup(markers);
 
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -28,13 +28,13 @@ if(data.length === 1){
     var map = L.map('map', {
         center: [data[0].latitude, data[0].longitude],
         zoom: 12,
-        layers: [osm, cities]
+        layers: [osm, projetos]
     }); 
 }else{
     var map = L.map('map', {
         center: [39.73, -104.99],
         zoom: 3,
-        layers: [osm, cities]
+        layers: [osm, projetos]
     });
 }
 
@@ -54,4 +54,4 @@ mapboxAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">Op
 var satellite = L.tileLayer(mapboxUrl, {id: 'MapID', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution});
 
 layerControl.addBaseLayer(satellite, "Satellite");
-layerControl.addOverlay(cities, "Cidades");
+layerControl.addOverlay(projetos, "Projetos");

@@ -66,4 +66,6 @@ if ($query->have_posts()) :
     echo '</main>';
     wp_localize_script('config-leaflet-js', 'data', $aProjetos);
 endif;
+
+
 require_once 'footer.php';
