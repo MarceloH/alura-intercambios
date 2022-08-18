@@ -79,6 +79,13 @@ function alura_intercambios_registrando_metabox()
         'ai_funcao_callback_destinos',
         'destinos'
     );
+
+    add_meta_box(
+        'ai_registrando_metabox_projetos',
+        'Campos para projeto',
+        'ai_funcao_callback_projetos',
+        'projetos'
+    );
 }
 
 add_action('add_meta_boxes', 'alura_intercambios_registrando_metabox');
@@ -99,6 +106,20 @@ function ai_funcao_callback($post)
 }
 
 function ai_funcao_callback_destinos($post)
+{
+    $latitude = get_post_meta(get_the_ID(), '_latitude', true);
+    $longitude = get_post_meta(get_the_ID(), '_longitude', true);
+?>
+    <label for="latitude">Latitude</label>
+    <input type="text" name="latitude" style="width: 100%" value="<?= $latitude ?>" required />
+    <br>
+    <br>
+    <label for="longitude">Longitude</label>
+    <input type="text" name="longitude" style="width: 100%" value="<?= $longitude ?>" required />
+<?php
+}
+
+function ai_funcao_callback_projetos($post)
 {
     $latitude = get_post_meta(get_the_ID(), '_latitude', true);
     $longitude = get_post_meta(get_the_ID(), '_longitude', true);
@@ -175,8 +196,17 @@ add_action('wp_enqueue_scripts', 'alura_intercambios_adicionando_scripts');
 
 //Projetos
 
-function alura_intercambios_registrando_taxonomia_setores()
+function alura_intercambios_registrando_taxonomia_projetos()
 {
+    register_taxonomy(
+        'status',
+        'projetos',
+        array(
+            'labels' => array('name' => 'Status do projeto'),
+            'hierarchical' => true
+        )
+    );
+
     register_taxonomy(
         'setores',
         'projetos',
@@ -187,21 +217,7 @@ function alura_intercambios_registrando_taxonomia_setores()
     );
 }
 
-add_action('init', 'alura_intercambios_registrando_taxonomia_setores');
-
-function alura_intercambios_registrando_taxonomia_status()
-{
-    register_taxonomy(
-        'status',
-        'projetos',
-        array(
-            'labels' => array('name' => 'Status do projeto'),
-            'hierarchical' => true
-        )
-    );
-}
-
-add_action('init', 'alura_intercambios_registrando_taxonomia_status');
+add_action('init', 'alura_intercambios_registrando_taxonomia_projetos');
 
 
 function alura_intercambios_registrando_post_customizado_projetos()
