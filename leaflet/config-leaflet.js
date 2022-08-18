@@ -1,7 +1,6 @@
 let markers = [];
 
 for (let i = 0; i < data.length; i++) {
-    console.log(data[i]);
     let Icon = L.icon({
         iconUrl: data[i].imagem,
         iconSize:     [38, 38], // size of the icon

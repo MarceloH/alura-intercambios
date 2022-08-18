@@ -235,3 +235,31 @@ function alura_intercambios_registrando_post_customizado_projetos()
 }
 
 add_action('init', 'alura_intercambios_registrando_post_customizado_projetos');
+
+//datatables
+add_action('wp_enqueue_scripts', 'my_custom_enqueue_scripts', 10);
+function my_custom_enqueue_scripts()
+{
+    wp_enqueue_style('jquery-datatables-css', '//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css');
+    wp_enqueue_script('jquery-datatables-js', '//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js', array('jquery'));
+    wp_enqueue_script('table-js', get_template_directory_uri() . '/js/table.js', array('jquery-datatables-js'), false, true);
+}
+
+
+add_action('wp_ajax_datatables_endpoint', 'my_custom_ajax_endpoint');
+add_action('wp_ajax_no_priv_datatables_endpoint', 'my_custom_ajax_endpoint');
+function my_custom_ajax_endpoint()
+{
+
+    $response = [];
+
+    $projetos = get_posts([
+        'post_type' => 'projetos',
+        'posts_per_page' => -1,
+    ]);
+
+    $response['data'] = !empty($projetos) ? $projetos : [];
+    $response['recordsTotal'] = !empty($projetos) ? count($projetos) : 0;
+
+    wp_send_json($response);
+}
