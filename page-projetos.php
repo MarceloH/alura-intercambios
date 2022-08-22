@@ -3,9 +3,10 @@ $estiloPagina = 'projetos.css';
 require_once 'header.php';
 ?>
 
-<form action="#" class="form-inline w-25 ml-1">
+<form action="#" class="form-inline ml-1">
     <h2>Projetos</h2>
     <div>
+        <label for="status">Status</label>
         <select class="form-control" name="status" id="status">
             <option value="">--Selecione--</option>
             <?php
@@ -16,6 +17,7 @@ require_once 'header.php';
             <?php endforeach;
             ?>
         </select>
+        <label for="setores">Setores</label>
         <select class="form-control" name="setores" id="setores">
             <option value="">--Selecione--</option>
             <?php
@@ -78,9 +80,9 @@ if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
         $titulo = get_the_title();
         $setor =  wp_get_post_terms(get_the_ID(), 'setores', array('fields' => 'names'))[0];
-
+        $link = get_permalink();
         echo "<tr>
-                <td>$titulo</td>
+                <td><a href=" . $link . ">$titulo</a></td>
                 <td>$setor</td>
             </tr>";
 

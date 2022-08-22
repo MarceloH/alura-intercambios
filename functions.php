@@ -130,6 +130,9 @@ function ai_funcao_callback_projetos($post)
     <br>
     <label for="longitude">Longitude</label>
     <input type="text" name="longitude" style="width: 100%" value="<?= $longitude ?>" required />
+
+
+
 <?php
 }
 
@@ -164,9 +167,15 @@ function pegandoTextosParaBanner()
         while ($query->have_posts()) : $query->the_post();
             $texto1 = get_post_meta(get_the_ID(), '_texto_home_1', true);
             $texto2 = get_post_meta(get_the_ID(), '_texto_home_2', true);
+            $args = array(
+                'post_type' => 'projetos'
+            );
+            $postTypes = new WP_Query($args);
+            $numberOfPosts = $postTypes->found_posts;
             return array(
                 'texto_1' => $texto1,
-                'texto_2' => $texto2
+                'texto_2' => $texto2,
+                'numero_projetos' => $numberOfPosts
             );
         endwhile;
     endif;
